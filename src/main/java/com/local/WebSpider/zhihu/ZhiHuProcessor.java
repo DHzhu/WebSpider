@@ -31,7 +31,7 @@ import us.codecraft.webmagic.processor.PageProcessor;
  * @author: Zhu
  * @date  : 2017年9月26日
  */
-public class PicProcessor implements PageProcessor{
+public class ZhiHuProcessor implements PageProcessor{
 
 	private Site site = Site.me();
 	
@@ -82,12 +82,6 @@ public class PicProcessor implements PageProcessor{
             Pattern pattern_page = Pattern.compile(".*?\\/([^\\/]*?)(\\/collection\\/\\d+.*?)$",Pattern.CASE_INSENSITIVE);
             Matcher matcher_page = pattern_page.matcher(authorUrl);
             if(matcher_page.find()){          	
-            	
-            	//2级连接不再处理
-            	if(page.getRequest().getExtra("level") != null && 
-            			"2".equals(String.valueOf(page.getRequest().getExtra("level")))){
-            		return;
-            	}
             	
             	//并将下一页添加到待处理流程中
             	if(page.getRequest().getExtra("NextPage") != null){

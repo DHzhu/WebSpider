@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.local.WebSpider.zhihu;
+package com.local.WebSpider;
 
 import com.local.utils.MongoManager;
 
@@ -13,12 +13,12 @@ import us.codecraft.webmagic.processor.PageProcessor;
  * @author: Zhu
  * @date : 2017年9月21日
  */
-public class PicSpider extends Spider {
+public class MySpider extends Spider {
 
 	/**
 	 * @param pageProcessor
 	 */
-	public PicSpider(PageProcessor pageProcessor) {
+	public MySpider(PageProcessor pageProcessor) {
 		super(pageProcessor);
 	}
 

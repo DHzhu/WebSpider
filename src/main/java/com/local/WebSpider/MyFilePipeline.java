@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.local.WebSpider.zhihu;
+package com.local.WebSpider;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
@@ -60,17 +60,17 @@ import us.codecraft.webmagic.utils.HttpConstant;
  * @author: Zhu
  * @date : 2017年9月26日
  */
-public class PicFilePipeline extends FilePersistentBase implements Pipeline {
+public class MyFilePipeline extends FilePersistentBase implements Pipeline {
 	private static Log logger = LogUtil.getTaskLog();
 
 	/**
 	 * create a FilePipeline with default path"/data/webmagic/"
 	 */
-	public PicFilePipeline() {
+	public MyFilePipeline() {
 		setPath("/data/webmagic/");
 	}
 
-	public PicFilePipeline(String path) {
+	public MyFilePipeline(String path) {
 		setPath(path);
 	}
 

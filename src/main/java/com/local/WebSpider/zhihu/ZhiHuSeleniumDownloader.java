@@ -29,7 +29,7 @@ import us.codecraft.webmagic.selector.PlainText;
  * @author: Zhu
  * @date  : 2017年9月26日
  */
-public class PicSeleniumDownloader implements Downloader, Closeable{
+public class ZhiHuSeleniumDownloader implements Downloader, Closeable{
 	
 	private volatile WebDriverPool webDriverPool;
 
@@ -43,16 +43,16 @@ public class PicSeleniumDownloader implements Downloader, Closeable{
 	
 	private String content;
 	
-	public PicSeleniumDownloader() {
+	public ZhiHuSeleniumDownloader() {
 		
 	}
 	
-	public PicSeleniumDownloader setPageSize(int pageSize) {
+	public ZhiHuSeleniumDownloader setPageSize(int pageSize) {
 		this.pageSize = pageSize;
 		return this;
 	}
 	
-	public PicSeleniumDownloader setSleepTime(int sleepTime) {
+	public ZhiHuSeleniumDownloader setSleepTime(int sleepTime) {
 		this.sleepTime = sleepTime;
 		return this;
 	}
