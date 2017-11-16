@@ -82,7 +82,7 @@ public class ZhiHuSeleniumDownloader implements Downloader, Closeable{
 		page.setRequest(request);
 		
 		String url = request.getUrl();
-		if(url.matches("(?i).*?\\/([^\\/]*?)\\.(jpg|png|jpeg)$")){
+		if(url.matches("(?i).*?\\/([^\\/]*?)\\.(jpg|png|jpeg|gif)$")){
         	page.setRawText("");
         	webDriverPool.returnToPool(webDriver);
         	return page;

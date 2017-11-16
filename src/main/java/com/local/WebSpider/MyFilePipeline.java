@@ -106,7 +106,7 @@ public class MyFilePipeline extends FilePersistentBase implements Pipeline {
 		if (fileName != null) {
 			try {
 				// 附件直接下载、页面用之前下载的内容
-				if (fileType.matches("(?i)jpg|png|jpeg")) {
+				if (fileType.matches("(?i)jpg|png|jpeg|gif")) {
 					SSLContext sslcontext = createIgnoreVerifySSL();
 					Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder
 							.<ConnectionSocketFactory>create().register("http", PlainConnectionSocketFactory.INSTANCE)

@@ -42,7 +42,7 @@ public class ZhiHuProcessor implements PageProcessor{
     		String authorUrl = java.net.URLDecoder.decode(page.getUrl().toString(),"UTF-8");
 			
 			//图片处理--直接下载
-			Pattern pattern_attach = Pattern.compile(".*?\\/([^\\/]*?)\\.(jpg|png|jpeg)$",Pattern.CASE_INSENSITIVE);
+			Pattern pattern_attach = Pattern.compile(".*?\\/([^\\/]*?)\\.(jpg|png|jpeg|gif)$",Pattern.CASE_INSENSITIVE);
             Matcher matcher_attach = pattern_attach.matcher(authorUrl);
             if(matcher_attach.find()){
             	page.putField("fileName", matcher_attach.group(1));
@@ -101,7 +101,7 @@ public class ZhiHuProcessor implements PageProcessor{
             	List<String> getUrls = page.getHtml().xpath("//img/@src").all();
         		for(String str : getUrls){
         			str = java.net.URLDecoder.decode(str,"UTF-8");
-        			if(results.contains(str) || !str.matches(".*?\\/([^\\/]*?)\\.(jpg|png)$")) continue;
+        			if(results.contains(str) || !str.matches(".*?\\/([^\\/]*?)\\.(jpg|png|jpeg|gif)$")) continue;
         			
         			Request request = new Request(str);
         			request.putExtra("level", "2");
