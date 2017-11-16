@@ -81,7 +81,12 @@ public class ZhiHuProcessor implements PageProcessor{
             page.putField("content", page.getRawText());
             Pattern pattern_page = Pattern.compile(".*?\\/([^\\/]*?)(\\/collection\\/\\d+.*?)$",Pattern.CASE_INSENSITIVE);
             Matcher matcher_page = pattern_page.matcher(authorUrl);
-            if(matcher_page.find()){          	
+            if(matcher_page.find()){
+            	//2级连接不再处理
+            	if(page.getRequest().getExtra("level") != null && 
+            			"2".equals(String.valueOf(page.getRequest().getExtra("level")))){
+            		return;
+            	}
             	
             	//并将下一页添加到待处理流程中
             	if(page.getRequest().getExtra("NextPage") != null){
