@@ -41,8 +41,6 @@ public class ZhiHuSeleniumDownloader implements Downloader, Closeable{
 	
 	private int pageSize = 10;
 	
-	private String content;
-	
 	public ZhiHuSeleniumDownloader() {
 		
 	}
@@ -77,6 +75,7 @@ public class ZhiHuSeleniumDownloader implements Downloader, Closeable{
 		logger.info("----------------------------------------------------------------");
 		logger.info("start processing page:" + request.getUrl());
 		
+		String content = "";
 		Page page = new Page();
 		page.setUrl(new PlainText(request.getUrl()));
 		page.setRequest(request);
