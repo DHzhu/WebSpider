@@ -76,6 +76,7 @@ public class MZiTuSeleniumDownloader implements Downloader, Closeable{
 		logger.info("----------------------------------------------------------------");
 		logger.info("start processing page:" + request.getUrl());
 		
+		request.putExtra("UUID", task.getUUID());
 		String content = "";
 		Page page = new Page();
 		page.setUrl(new PlainText(request.getUrl()));

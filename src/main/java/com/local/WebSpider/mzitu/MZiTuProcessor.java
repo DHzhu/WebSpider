@@ -40,11 +40,15 @@ public class MZiTuProcessor implements PageProcessor{
 		// TODO Auto-generated method stub
 		try {
     		String authorUrl = java.net.URLDecoder.decode(page.getUrl().toString(),"UTF-8");
-			
+    		String PATH_SEPERATOR = "/";
+    		String UUID = String.valueOf(page.getRequest().getExtra("UUID"));
+        	
 			//图片处理--直接下载
 			Pattern pattern_attach = Pattern.compile(".*?\\/([^\\/]*?)\\.(jpg|png|jpeg|gif)$",Pattern.CASE_INSENSITIVE);
             Matcher matcher_attach = pattern_attach.matcher(authorUrl);
             if(matcher_attach.find()){
+            	String location = PATH_SEPERATOR + UUID + PATH_SEPERATOR + authorUrl.substring(authorUrl.indexOf(UUID) + UUID.length(), authorUrl.lastIndexOf("/")) + PATH_SEPERATOR;
+            	page.putField("fileUrl", location);
             	page.putField("fileName", matcher_attach.group(1));
             	page.putField("fileType", matcher_attach.group(2));
             	return;
@@ -96,6 +100,7 @@ public class MZiTuProcessor implements PageProcessor{
             	//二级链接处理
             	List<String> getUrls = page.getHtml().xpath("//img/@src").all();
             	getUrls.addAll(page.getHtml().xpath("//img/@org_src").all());
+            	
         		for(String str : getUrls){
         			str = java.net.URLDecoder.decode(str,"UTF-8");
         			if(!str.startsWith("http:")) {
@@ -112,7 +117,8 @@ public class MZiTuProcessor implements PageProcessor{
         			
                 	Document doc = new Document();
                 	doc.append("columnUrl",authorUrl);
-                    doc.append("fileUrl", str);
+                	String picUrl = PATH_SEPERATOR + UUID + PATH_SEPERATOR + str.substring(str.indexOf(UUID) + UUID.length());
+                    doc.append("fileUrl", picUrl);
                     doc.append("fileName", str.substring(str.lastIndexOf("/") + 1));
                 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 	doc.append("saveTime",sdf.format(new Date()));

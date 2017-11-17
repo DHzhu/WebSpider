@@ -84,6 +84,7 @@ public class MyFilePipeline extends FilePersistentBase implements Pipeline {
 				+ PATH_SEPERATOR;
 		String fileName = resultItems.get("fileName");
 		String fileType = resultItems.get("fileType");
+		String fileUrl = resultItems.get("fileUrl");
 
 		Site site = null;
 		if (task != null) {
@@ -143,7 +144,7 @@ public class MyFilePipeline extends FilePersistentBase implements Pipeline {
 				MongoCollection<Document> collection = mongo.getCollection("spider");
 				// 查询已存在且已下载列表页数据
 				Document boL = new Document();
-				boL.put("fileUrl", java.net.URLDecoder.decode(urlStr, "UTF-8"));
+				boL.put("fileUrl", fileUrl + fileName + "." + fileType);
 				boL.put("isScan", 0);
 
 				Document bo = new Document();
