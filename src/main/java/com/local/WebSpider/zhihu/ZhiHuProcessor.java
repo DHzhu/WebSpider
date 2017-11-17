@@ -124,6 +124,7 @@ public class ZhiHuProcessor implements PageProcessor{
                 	doc.append("isScan",0);
                 	doc.append("isNew",1);
                 	doc.append("isChild", 1);
+                	doc.append("isValid", 1);
                 	contents.add(doc);
         		}
         		if(!contents.isEmpty()){
