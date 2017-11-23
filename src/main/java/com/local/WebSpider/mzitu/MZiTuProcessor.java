@@ -108,6 +108,9 @@ public class MZiTuProcessor implements PageProcessor{
             		}
         			if(results.contains(str) || !str.matches(".*?\\/([^\\/]*?)\\.(jpg|png|jpeg|gif)$")) continue;
         			
+        			//gif预览图不下载
+        			if(str.matches(".*?\\/([^\\/]*?)\\.(gif)$") && str.matches(".*?\\/(thumb180)\\/.*?$")) continue;
+        			
         			Request request = new Request(str);
         			request.putExtra("level", "2");
         			page.addTargetRequest(request);
