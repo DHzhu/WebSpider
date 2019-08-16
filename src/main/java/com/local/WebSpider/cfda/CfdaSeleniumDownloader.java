@@ -22,6 +22,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.local.utils.Constants;
 import com.local.utils.LogUtil;
 import com.local.utils.WebDriverPool;
 
@@ -103,32 +104,19 @@ public class CfdaSeleniumDownloader implements Downloader, Closeable{
 					menuElement.click();
 					
 					WebDriverWait wait = new WebDriverWait(webDriver, 20);
+					waitDone(wait);
 					
-					wait.until(new ExpectedCondition<Boolean>() {
-						@Override
-						public Boolean apply(WebDriver driver) {
-							// TODO Auto-generated method stub
-							JavascriptExecutor driver_js= ((JavascriptExecutor) driver);
-							return (boolean) driver_js.executeScript("jQuery.ajaxPrefilter(function( options ) { " +
-									"	options.global = true;" + 
-									"}); return jQuery.active == 0;");
-						}					
-					});
+					getInfo(webDriver, page);
 					
-					int liSize = webDriver.findElements(By.xpath("//ul[@id='data_content']//li/a")).size();
-					for(int j = 1; j <= liSize; j++) {
-						WebElement liElement = webDriver.findElement(By.xpath("//ul[@id='data_content']//li[" + j + "]/a"));
-						
-						String val = liElement.getAttribute("onclick");
-						
-						Pattern pattern_page = Pattern.compile(".*?\\((.*?)\\);$",Pattern.CASE_INSENSITIVE);
-				        Matcher matcher_page = pattern_page.matcher(val);
-				        if(matcher_page.find()) {
-				        	//page.addTargetRequest(Constants.DETAILPATH + matcher_page.group(1).replaceAll("'", "").replaceAll(",", "/"));
-				        	logger.info(matcher_page.group(1).replaceAll("'", "").replaceAll(",", "/"));
-				        }
+					/*
+					int totalNum = Integer.valueOf(webDriver.findElement(By.xpath("//b[@class='totalPage']")).getText()) ;
+					for(int j = 2; j <= totalNum; j++) {
+						WebElement nextPage = webDriver.findElement(By.xpath("//a[@class='laypage_next']"));
+						nextPage.click();
+						waitDone(wait);
+						getInfo(webDriver, page);
 					}
-					
+					*/
 					
 				}
 	        }
@@ -140,6 +128,36 @@ public class CfdaSeleniumDownloader implements Downloader, Closeable{
 		page.setRawText(content);
 		webDriverPool.returnToPool(webDriver);
 		return page;
+	}
+	
+	private void waitDone(WebDriverWait wait) {
+		wait.until(new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean apply(WebDriver driver) {
+				// TODO Auto-generated method stub
+				JavascriptExecutor driver_js= ((JavascriptExecutor) driver);
+				return (boolean) driver_js.executeScript("jQuery.ajaxPrefilter(function( options ) { " +
+						"	options.global = true;" + 
+						"}); return jQuery.active == 0;");
+			}					
+		});
+	}
+	
+	private void getInfo(WebDriver webDriver, Page page) {
+		int liSize = webDriver.findElements(By.xpath("//ul[@id='data_content']//li/a")).size();
+		for(int j = 1; j <= liSize; j++) {
+			WebElement liElement = webDriver.findElement(By.xpath("//ul[@id='data_content']//li[" + j + "]/a"));
+			
+			String val = liElement.getAttribute("onclick");
+			
+			Pattern pattern_page = Pattern.compile(".*?\\((.*?)\\);$",Pattern.CASE_INSENSITIVE);
+	        Matcher matcher_page = pattern_page.matcher(val);
+	        if(matcher_page.find()) {
+	        	page.addTargetRequest(Constants.DETAILPATH + matcher_page.group(1).replaceAll("'", "").replaceAll(",", "/"));
+	        	logger.info(matcher_page.group(1).replaceAll("'", "").replaceAll(",", "/"));
+	        	
+	        }
+		}
 	}
 
 
