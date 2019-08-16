@@ -74,6 +74,7 @@ public class Config {
 			Constants.THREADNUM = Integer.valueOf(configConfig.getProperty("threadNum"));
 			Constants.STARURL = configConfig.getProperty("starUrl");
 			Constants.SAVEPATH = configConfig.getProperty("savePath");
+			Constants.DETAILPATH = configConfig.getProperty("detailPath");
 			logger.info(configFile + "加载完成");
 		} catch (Exception e) {
 			e.printStackTrace();

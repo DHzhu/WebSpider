@@ -6,8 +6,8 @@ package com.local.WebSpider;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.local.WebSpider.mzitu.MZiTuProcessor;
-import com.local.WebSpider.mzitu.MZiTuSeleniumDownloader;
+import com.local.WebSpider.cfda.CfdaProcessor;
+import com.local.WebSpider.cfda.CfdaSeleniumDownloader;
 import com.local.utils.Constants;
 
 
@@ -30,11 +30,10 @@ public class StartSpider {
 		.thread(Integer.valueOf(Constants.THREADNUM))
 		.run();*/
 		
-		MySpider.create(new MZiTuProcessor())
+		MySpider.create(new CfdaProcessor())
 		.addUrl(Constants.STARURL)
 		.addPipeline(new MyFilePipeline(Constants.SAVEPATH))
-		.setDownloader(new MZiTuSeleniumDownloader()
-							.setPageSize(Integer.valueOf(Constants.DEEPPAGESIZE))
+		.setDownloader(new CfdaSeleniumDownloader()
 							.setSleepTime(Integer.valueOf(Constants.SLEEPTIME)))
 		.thread(Integer.valueOf(Constants.THREADNUM))
 		.run();
