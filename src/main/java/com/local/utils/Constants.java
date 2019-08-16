@@ -34,6 +34,7 @@ public class Constants {
 	public static int SLEEPTIME;
 	public static String STARURL;
 	public static String SAVEPATH;
+	public static String DETAILPATH;
 	public static int DEEPPAGESIZE;
 	public static int THREADNUM;
 }
