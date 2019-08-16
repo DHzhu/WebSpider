@@ -9,6 +9,8 @@ package com.local.WebSpider.cfda;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -96,8 +98,37 @@ public class CfdaSeleniumDownloader implements Downloader, Closeable{
 		try{
 			String url = request.getUrl();
 			if(!url.matches(".*?/cfda$")){
-				
-	        }else {
+				List<WebElement> trElements = webDriver.findElements(By.xpath("//div[@class='detail_list']//table/tbody/tr"));
+				Map<String, String> map = new HashMap<String, String>();
+				for(WebElement trElement : trElements) {
+					if(trElement.findElements(By.xpath("td")).size() == 2) {
+						WebElement fristTd = trElement.findElement(By.xpath("td[1]"));
+						
+						String value = trElement.findElement(By.xpath("td[2]")).getText();
+						if(fristTd.getText().equals("批准日期")) {
+							map.put("APPROVAL_DATE", value);
+						}
+						if(fristTd.getText().equals("有效期") || fristTd.getText().equals("有效期至") || fristTd.getText().equals("有效期截止日")) {
+							map.put("EXPIRED_DATE", value);
+						}
+						if(fristTd.getText().equals("地址") || fristTd.getText().equals("注册人住所") || fristTd.getText().equals("生产厂地址（中文）")) {
+							map.put("ENTERPRISE_ADDRESS", value);
+						}
+						if(fristTd.getText().equals("生产单位") || fristTd.getText().equals("注册人名称") || fristTd.getText().equals("生产厂商名称（中文）")) {
+							map.put("ENTERPRISE", value);
+						}
+						if(fristTd.getText().equals("注册号") || fristTd.getText().equals("注册证编号")) {
+							map.put("APPROVAL_NUM", value);
+						}
+						if(fristTd.getText().equals("产品名称") || fristTd.getText().equals("产品名称（中文）")) {
+							map.put("PRODUCT_NAME", value);
+						}
+						String[] splitUrl = url.split("/");
+						map.put("ES_ID", splitUrl[splitUrl.length - 1]);
+					}
+				}
+				logger.info(map);
+			}else {
 	        	int menuSize = webDriver.findElements(By.xpath("//ul[@class='show_lits ylqx']//li")).size();
 				for(int i = 1; i <= menuSize; i++) {
 					WebElement menuElement = webDriver.findElement(By.xpath("//ul[@class='show_lits ylqx']//li[" + i + "]"));
@@ -155,7 +186,6 @@ public class CfdaSeleniumDownloader implements Downloader, Closeable{
 	        if(matcher_page.find()) {
 	        	page.addTargetRequest(Constants.DETAILPATH + matcher_page.group(1).replaceAll("'", "").replaceAll(",", "/"));
 	        	logger.info(matcher_page.group(1).replaceAll("'", "").replaceAll(",", "/"));
-	        	
 	        }
 		}
 	}
